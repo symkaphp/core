@@ -1,0 +1,11 @@
+<ul class="list-group">
+
+    {% if menuItems is not empty %}
+        {% for item in menuItems %}
+            <li class="list-group-item">
+                <a href="{{ path(item.route) }}">{{ item.title }}</a>
+            </li>
+        {% endfor %}
+    {% endif %}
+
+</ul>

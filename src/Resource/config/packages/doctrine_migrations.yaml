@@ -1,0 +1,12 @@
+doctrine_migrations:
+  dir_name: '%kernel.project_dir%/src/Migrations'
+  namespace: DoctrineMigrations
+  table_name: 'migration_versions'
+  column_name: 'version'
+  column_length: 14
+  executed_at_column_name: 'executed_at'
+  name: 'SymkaCore Migrations'
+  organize_migrations: false
+
+  custom_template: ~
+  all_or_nothing: false
