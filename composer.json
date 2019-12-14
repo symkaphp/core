@@ -1,7 +1,7 @@
 {
     "name": "symka/core",
     "description": "Symka Core",
-    "type": "symfony-bundle",
+    "type": "library",
     "license": "MIT",
     "authors": [
         {
