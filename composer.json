@@ -9,6 +9,11 @@
             "email": "symkaphp@gmail.com"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "Symka\\Core\\": "src/"
+        }
+    },
     "require": {
         "php" : ">=7.4"
     }
