@@ -8,6 +8,7 @@ class SiteController extends AbstractController
 {
     public function indexAction()
     {
+       // return $this->render('@SymkaCoreBundle/Resource/views/site/index.html.twig');
         return $this->render('@SymkaCoreBundle/Resource/views/site/index.html.twig');
     }
 }
