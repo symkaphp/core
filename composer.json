@@ -1,15 +1,13 @@
 {
     "name": "symka/core",
-    "description": "Symka Core",
+    "description": "Symka Core Bundle",
     "type": "library",
     "license": "MIT",
     "authors": [
         {
-            "name": "symka",
-            "email": "symkaphp@gmain.com"
+            "name": "SymkaPhp",
+            "email": "symkaphp@gmail.com"
         }
     ],
-    "require": {
-        "php": "^7.1.3"
-    }
+    "require": {}
 }
