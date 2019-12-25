@@ -14,5 +14,7 @@
     <route id="symka_core_admin_site_config_index" path="/admin/site-config"
            controller="Symka\Core\Controller\SiteConfigController::indexAction" methods="GET"/>
 
+    <route id="symka_core_admin_site_example_crud" path="/admin/example-crud"
+           controller="Symka\Core\Controller\ExampleCrudController::indexAction" methods="GET"/>
 
 </routes>
