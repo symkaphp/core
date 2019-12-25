@@ -8,4 +8,3 @@
 /vendor/
 /.idea
 ###< symfony/framework-bundle ###
-composer.json
