@@ -1,0 +1,29 @@
+{
+    "name": "symka/core",
+    "description": "Symka Core Bundle",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "SymkaPhp",
+            "email": "symkaphp@gmail.com"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "Symka\\Core\\": "src/"
+        }
+    },
+    "require": {
+
+        "php" : ">=7.4",
+        "knplabs/knp-paginator-bundle": "^5.0",
+        "doctrine/doctrine-migrations-bundle" : "^2.0"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0.x-dev"
+        }
+
+    }
+}

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="symka_core_site_index" path="/"
+           controller="Symka\Core\Controller\SiteController::indexAction" methods="GET"/>
+
+    <route id="symka_core_admin_index" path="/admin/"
+           controller="Symka\Core\Controller\AdminController::indexAction" methods="GET"/>
+
+
+    <route id="symka_core_admin_site_config_index" path="/admin/site-config"
+           controller="Symka\Core\Controller\SiteConfigController::index" methods="GET"/>
+
+    <route id="symka_core_admin_site_example_crud" path="/admin/example-crud"
+           controller="Symka\Core\Controller\ExampleCrudController::index" methods="GET"/>
+
+</routes>
