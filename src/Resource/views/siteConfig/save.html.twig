@@ -1,0 +1,27 @@
+{% extends '@SymkaCoreBundle/Resource/views/admin/layout.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+    {% block content %}
+        {{ form_start(form) }}
+        <div class="row" id="report1">
+            <div class="col-sm-6">
+                <div class="card card-inverse card-info">
+                    <div class="card-block">
+                        {{ form_widget(form) }}
+                    </div>
+                    <div class="card-footer">
+                        {#<small>Last updated 3 mins ago</small>#}
+                        <button type="submit" class="btn btn-info float-right btn-sm">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {{ form_end(form) }}
+    {% endblock %}
+
+
+
+
+
+
+

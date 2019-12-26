@@ -4,17 +4,19 @@
 namespace Symka\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symka\Core\Interfaces\CrudEntityInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Symka\Core\Repository\SiteDefaultConfigEntityRepository")
- * @ORM\Table(name="SiteDefaultConfigEntity")
+ * @ORM\Table(name="SiteDefaultConfig")
  */
 
-class SiteDefaultConfigEntity
+class SiteDefaultConfigEntity implements CrudEntityInterface
 {
 
     const STATUS_ACTIVE = 1;
     const STATUS_IN_DEVELOP = 2;
+    const STATUS_CLOSE= 2;
 
     /**
      * @ORM\Id

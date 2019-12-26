@@ -1,7 +1,7 @@
 {% extends 'admin-default/base.html.twig' %}
 
   {% block body %}
-      <body id="page-top">
+      <body>
 
       {% if app.environment == 'test' %}
           <div id="test-info-controller-route" style="display: none;">{{ app.request.attributes.get("_route") }}</div>
@@ -306,6 +306,7 @@
               </nav>
           </header>
       {% endblock %}
+
 
       <div class="page-content d-flex align-items-stretch">
 

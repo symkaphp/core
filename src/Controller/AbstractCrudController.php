@@ -10,14 +10,17 @@ use Knp\Component\Pager\PaginatorInterface;
 use Psr\Log\LoggerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\Form\FormTypeInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symka\Core\Event\CrudSaveBeforeEvent;
 use Symka\Core\Exception\CrudControllerException;
 use Symka\Core\Helper\HelperCrud;
 use Symka\Core\Interfaces\CrudControllerInterface;
 use Symka\Core\Interfaces\CrudGridInterface;
 use Symka\Core\Interfaces\CrudEntityInterface;
+use Symka\Core\Interfaces\CrudSaveBeforeEventInterface;
 
 
 abstract class AbstractCrudController extends AbstractController implements CrudControllerInterface, CrudEntityInterface
@@ -40,6 +43,7 @@ abstract class AbstractCrudController extends AbstractController implements Crud
     public function save(Request $request, EntityManagerInterface $entityManager, LoggerInterface $logger, ?int $id = null): Response
     {
         $result = [];
+        $eventDispatcher = new EventDispatcher();
         try {
 
             if ($id !== null && $id > 0) {
@@ -55,8 +59,12 @@ abstract class AbstractCrudController extends AbstractController implements Crud
             $form->handleRequest($request);
 
             if ($form->isSubmitted()) {
+
+                dump($form->isValid());
                 if ($form->isValid()) {
                     $formData = $form->getData();
+                    //$eventDispatcher->addListener(CrudSaveBeforeEventInterface::NAME );
+                    $eventDispatcher->dispatch(new CrudSaveBeforeEvent($formData), CrudSaveBeforeEventInterface::NAME);
                     try {
                         $entityManager->beginTransaction();
                         if ($id === null) {
@@ -69,11 +77,14 @@ abstract class AbstractCrudController extends AbstractController implements Crud
                         $entityManager->rollback();
                         throw new CrudControllerException($e->getMessage(), $e->getCode());
                     }
+
+                    return $this->redirectToRoute($this->redirectAfterSaveRoute, ['id' => $id]);
                 } else {
                     throw new CrudControllerException(CrudControllerException::ERROR_VALIDATE_MESSAGE, CrudControllerException::ERROR_VALIDATE);
                 }
+
             }
-            return $this->redirectToRoute($this->redirectAfterSaveRoute, ['id' => $id]);
+
 
         } catch (CrudControllerException $crudControllerException) {
             if ($crudControllerException->getCode() != CrudControllerException::ERROR_VALIDATE) {
@@ -86,6 +97,8 @@ abstract class AbstractCrudController extends AbstractController implements Crud
         } catch (\Exception $exception) {
             throw $exception;
         }
+
+        $result['form'] = $form->createView();
 
         return $this->render(HelperCrud::getViewPathByFunctionName($this, __FUNCTION__), $result);
     }
