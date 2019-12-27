@@ -1,7 +1,16 @@
 {% extends 'admin-default/base.html.twig' %}
 
   {% block body %}
-      <body id="page-top">
+      <body>
+
+
+
+
+
+      {% if app.environment == 'test' %}
+          <div id="test-info-controller-route" style="display: none;">{{ app.request.attributes.get("_route") }}</div>
+          <div id="test-info-controller-name" style="display: none;">{{ app.request.attributes.get("_controller") }}</div>
+      {% endif %}
 
       {% block header %}
           <header class="header">
@@ -302,6 +311,7 @@
           </header>
       {% endblock %}
 
+
       <div class="page-content d-flex align-items-stretch">
 
           <!--***** SIDE NAVBAR *****-->
@@ -365,42 +375,62 @@
 
           <div class="content-inner">
 
+              {% block contentTitle %}
+              {% endblock %}
+
+
+              {% block message %}
+                  {% for message in app.flashes('success') %}
+                      <div class="alert alert-success">
+                          {{ message }}
+                      </div>
+                  {% endfor %}
+
+                  {% for message in app.flashes('error') %}
+                      <div class="alert alert-danger">
+                          {{ message }}
+                      </div>
+                  {% endfor %}
+
+              {% endblock %}
+
+
               {% block content %}
 
               {% endblock %}
 
 
               {% block footer %}
-                {#  <div class="row" id="report4">
-                      <div class="col-md-3">
-                          <div class="card text-center social-bottom sb-fb">
-                              <i class="fa fa-facebook"></i>
-                              <div>3250 +</div>
-                              <p>Likes</p>
-                          </div>
-                      </div>
-                      <div class="col-md-3">
-                          <div class="card text-center social-bottom sb-tw">
-                              <i class="fa fa-twitter"></i>
-                              <div>2345 +</div>
-                              <p>Following</p>
-                          </div>
-                      </div>
-                      <div class="col-md-3">
-                          <div class="card text-center social-bottom sb-gp">
-                              <i class="fa fa-google-plus"></i>
-                              <div>1253 +</div>
-                              <p>Followers</p>
-                          </div>
-                      </div>
-                      <div class="col-md-3">
-                          <div class="card text-center social-bottom sb-in">
-                              <i class="fa fa-instagram"></i>
-                              <div>4524 +</div>
-                              <p>Likes</p>
-                          </div>
-                      </div>
-                  </div>#}
+                  {#  <div class="row" id="report4">
+                        <div class="col-md-3">
+                            <div class="card text-center social-bottom sb-fb">
+                                <i class="fa fa-facebook"></i>
+                                <div>3250 +</div>
+                                <p>Likes</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center social-bottom sb-tw">
+                                <i class="fa fa-twitter"></i>
+                                <div>2345 +</div>
+                                <p>Following</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center social-bottom sb-gp">
+                                <i class="fa fa-google-plus"></i>
+                                <div>1253 +</div>
+                                <p>Followers</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card text-center social-bottom sb-in">
+                                <i class="fa fa-instagram"></i>
+                                <div>4524 +</div>
+                                <p>Likes</p>
+                            </div>
+                        </div>
+                    </div>#}
               {% endblock %}
           </div>
       </div>

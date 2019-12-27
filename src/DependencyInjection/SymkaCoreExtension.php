@@ -27,5 +27,6 @@ class SymkaCoreExtension extends Extension
 
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resource/config'));
         $loader->load('services.yaml');
+      //  $loader->load('validation.yaml');
     }
 }

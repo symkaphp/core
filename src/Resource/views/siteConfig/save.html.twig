@@ -1,0 +1,73 @@
+{% extends '@SymkaCoreBundle/Resource/views/admin/layout.html.twig' %}
+{% form_theme form 'bootstrap_4_layout.html.twig' %}
+
+{% block contentTitle %}
+    <div class="card card-inverse card-info">
+        <div class="card-body">
+            <h5 class="card-title">Site Setting Create New {{ id }}</h5>
+
+        </div>
+        <div class="card-footer">
+
+            <div class="float-left">
+                <a href="{{ path('symka_core_admin_index') }}">Admin</a> / <a href="{{ path('symka_core_admin_site_config_index') }}">Site setting</a> / <strong> Create New </strong>
+            </div>
+            <a href="{{ path('symka_core_admin_site_config_index') }}" class="btn btn-warning float-right"><i
+                        class="fa fa-arrow-circle-left"></i> Cancel</a>
+        </div>
+    </div>
+
+{% endblock %}
+
+    {% block content %}
+       {{ form_start(form) }}
+        <div class="card card-inverse card-info">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-sm-6">
+                        {{ form_widget(form) }}
+                    </div>
+                    <div class="col-sm-6">
+                        <blockquote class="blockquote text-right">
+                            <p class="mb-0">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere
+                                erat a ante.</p>
+                            <footer class="blockquote-footer">Someone famous in <cite title="Source Title">Source
+                                    Title</cite></footer>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <small>
+                    {% if form.vars.value.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_ACTIVE') %}
+
+                        {% if form.vars.value.updatedAt is not empty %}
+                            Last update: {{ form.vars.value.updatedAt | date('d.m.Y') }}
+                        {% elseif form.vars.value.createdAt is not empty %}
+                            Created At: {{ form.vars.value.createdAt | date('d.m.Y') }}
+                        {% endif %}
+
+                    {% elseif form.vars.value.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_IN_DEVELOP') %}
+                        Updated At: {{ form.vars.value.updatedAt | date('d.m.Y') }}
+                        <span class="badge badge-pill badge-warning">In develop</span>
+                    {% elseif form.vars.value.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_CLOSE') %}
+                        Deleted At: {{ form.vars.value.deletedAt | date('d.m.Y') }}
+                    {% endif %}
+
+                </small>
+
+                <button type="submit" class="btn btn-primary float-right"><i class="fa fa-save"></i> Save and Create New</button>
+                <button  type="submit" class="btn btn-success float-right" style="margin-right: 10px;" onclick=" document.getElementById('is_save_and_create').value = 1;"><i class="fa fa-save"></i> Save</button>
+                <input type="hidden" name="is_save_and_create" id="is_save_and_create" value="0">
+            </div>
+
+        </div>
+        {{ form_end(form) }}
+    {% endblock %}
+
+
+
+
+
+
+
