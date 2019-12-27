@@ -3,15 +3,12 @@ declare(strict_types=1);
 
 namespace Symka\Core\Event;
 
-
 use Symfony\Contracts\EventDispatcher\Event;
 use Symka\Core\Interfaces\CrudEntityInterface;
-use Symka\Core\Interfaces\CrudSaveBeforeEventInterface;
 
-class CrudSaveBeforeEvent extends Event implements CrudSaveBeforeEventInterface
+abstract class CrudAfterDataEventAbstract extends Event
 {
-
-    private CrudEntityInterface $entity;
+    protected CrudEntityInterface $entity;
 
     public function __construct(CrudEntityInterface $entity)
     {
@@ -22,5 +19,4 @@ class CrudSaveBeforeEvent extends Event implements CrudSaveBeforeEventInterface
     {
         return $this->entity;
     }
-
 }

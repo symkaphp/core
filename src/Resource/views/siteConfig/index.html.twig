@@ -1,25 +1,81 @@
 {% extends '@SymkaCoreBundle/Resource/views/admin/layout.html.twig' %}
-
-    {% block content %}
-
-        <div class="row" id="report1">
-            <div class="col-sm-6">
-                <div class="card">
-                    <div class="card-block">
-                        <div class="text-left report1-cont">
-                            <h2 class="font-light m-b-0"><i class="ti-arrow-up text-success"></i> General config</h2>
-                            <span class="text-muted">Todays Income</span>
-                        </div>
-                        <span class="text-success">80%</span>
-                        <div class="progress">
-                            <div class="progress-bar bg-success" role="progressbar" style="width: 80%; height: 6px;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-                        </div>
-                        <p><small>Last month 10% Growth</small></p>
-                    </div>
-                </div>
-            </div>
+{% block contentTitle %}
+    <div class="card card-inverse card-info">
+        <div class="card-body">
+            <h5 class="card-title">Site Setting</h5>
 
         </div>
+        <div class="card-footer">
+
+            <div class="float-left">
+                <a href="#">Admin</a> / <strong> Site setting </strong>
+            </div>
+            <a href="{{ path('symka_core_admin_site_config_create') }}" class="btn btn-info float-right"><i class="fa fa-plus-circle"></i> Create new</a>
+        </div>
+    </div>
+{% endblock %}
+    {% block content %}
+
+
+        {% if pagination is defined and pagination.getTotalItemCount > 0 %}
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Domain</th>
+                    <th scope="col">Status</th>
+                    <th scope="col">Last</th>
+                    <th scope="col"></th>
+                </tr>
+                </thead>
+                <tbody>
+                {% for item in pagination %}
+                <tr>
+                    <th scope="row">{{ item.id }}</th>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.domain }}</td>
+                    <td>
+                        {% if item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_ACTIVE') %}
+                            <span class="badge badge-pill badge-success">Active</span>
+                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_IN_DEVELOP') %}
+                            <span class="badge badge-pill badge-warning">In develop</span>
+                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_DELETED') %}
+                            <span class="badge badge-pill badge-danger">Deleted</span>
+                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_CLOSE') %}
+                            <span class="badge badge-pill badge-secondary">Closed</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_ACTIVE') %}
+                            Created At: {{ item.createdAt | date('d.m.Y') }}
+                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_IN_DEVELOP') %}
+                            Updated At: {{ item.updatedAt | date('d.m.Y') }}
+                            <span class="badge badge-pill badge-warning">In develop</span>
+                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_CLOSE') %}
+                            Closef At: {{ item.updatedAt | date('d.m.Y') }}
+                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_DELETED') %}
+                            Deleted At: {{ item.deletedAt | date('d.m.Y') }}
+                        {% endif %}
+                    </td>
+                    <td align="right">
+                        <a href="{{ path('symka_core_admin_site_config_update', {id : item.id}) }}" class="btn btn-success"><i class="fa fa-pencil"></i> Edit</a>
+                        <a href="{{ path('symka_core_admin_site_config_delete_safe', {id : item.id}) }}" onclick="return confirm('Delete this record?')" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
+                    </td>
+                </tr>
+                {% endfor %}
+
+                </tbody>
+            </table>
+            <hr>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination, '@KnpPaginatorBundle/templates/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+            </div>
+         {% else %}
+            <div class="alert alert-info">
+                Data not found
+            </div>
+        {% endif %}
     {% endblock %}
 
 

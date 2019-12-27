@@ -7,7 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symka\Core\Interfaces\CrudEntityInterface;
 
 /**
- * @ORM\Entity(repositoryClass="Symka\Core\Repository\SiteDefaultConfigEntityRepository")
+ * @ORM\Entity(repositoryClass="Symka\Core\Repository\SiteDefaultConfigRepository")
  * @ORM\Table(name="SiteDefaultConfig")
  */
 
@@ -16,7 +16,8 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
 
     const STATUS_ACTIVE = 1;
     const STATUS_IN_DEVELOP = 2;
-    const STATUS_CLOSE= 2;
+    const STATUS_CLOSE = 3;
+    const STATUS_DELETED = 4;
 
     /**
      * @ORM\Id
@@ -57,27 +58,32 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
     /**
      * Date time of update
      * @var \DateTime
-     * @ORM\Column(type="datetime", name="updatedAt")
+     * @ORM\Column(type="datetime", name="updatedAt", nullable=true)
      */
     private $updatedAt;
 
     /**
      * Date time of delete
      * @var \DateTime
-     * @ORM\Column(type="datetime", name="deletedAt")
+     * @ORM\Column(type="datetime", name="deletedAt", nullable=true)
      */
     private $deletedAt;
 
     /**
      * User id
      * @var int
-     * @ORM\Column(type="integer", name="authorId")
+     * @ORM\Column(type="integer", name="authorId", nullable=true)
      */
     private $authorId;
 
     public function __construct()
     {
         $this->setStatus(self::STATUS_ACTIVE);
+    }
+
+    public function getId(): int
+    {
+        return $this->id;
     }
 
     public function getName(): ?string
@@ -161,7 +167,7 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
      * @param \DateTime $deletedAt
      * @return SiteDefaultConfigEntity
      */
-    public function setDeletedAt(?\DateTime $deletedAt): SiteDefaultConfigEntity
+    public function setDeletedAt(?\DateTime $deletedAt): ?CrudEntityInterface
     {
         $this->deletedAt = $deletedAt;
         return $this;
@@ -183,6 +189,11 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
     {
         $this->authorId = $authorId;
         return $this;
+    }
+
+    public function getStatusDeleted(): int
+    {
+        return self::STATUS_DELETED;
     }
 
 

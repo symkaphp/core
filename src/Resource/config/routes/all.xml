@@ -14,8 +14,18 @@
     <route id="symka_core_admin_site_config_index" path="/admin/site-config"
            controller="Symka\Core\Controller\SiteConfigController::index" methods="GET"/>
 
-    <route id="symka_core_admin_site_config_save" path="/admin/site-config-create"
+    <route id="symka_core_admin_site_config_create" path="/admin/site-config-create"
            controller="Symka\Core\Controller\SiteConfigController::save" methods="GET,POST"/>
+
+    <route id="symka_core_admin_site_config_update" path="/admin/site-config-update/{id}"
+           controller="Symka\Core\Controller\SiteConfigController::save" methods="GET,POST">
+        <requirement key="id">\d+</requirement>
+    </route>
+
+    <route id="symka_core_admin_site_config_delete_safe" path="/admin/site-config-delete/{id}"
+           controller="Symka\Core\Controller\SiteConfigController::deleteSafe" methods="GET">
+        <requirement key="id">\d+</requirement>
+    </route>
 
 
 </routes>

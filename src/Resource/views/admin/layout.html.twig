@@ -3,6 +3,10 @@
   {% block body %}
       <body>
 
+
+
+
+
       {% if app.environment == 'test' %}
           <div id="test-info-controller-route" style="display: none;">{{ app.request.attributes.get("_route") }}</div>
           <div id="test-info-controller-name" style="display: none;">{{ app.request.attributes.get("_controller") }}</div>
@@ -370,6 +374,26 @@
           </nav>
 
           <div class="content-inner">
+
+              {% block contentTitle %}
+              {% endblock %}
+
+
+              {% block message %}
+                  {% for message in app.flashes('success') %}
+                      <div class="alert alert-success">
+                          {{ message }}
+                      </div>
+                  {% endfor %}
+
+                  {% for message in app.flashes('error') %}
+                      <div class="alert alert-danger">
+                          {{ message }}
+                      </div>
+                  {% endfor %}
+
+              {% endblock %}
+
 
               {% block content %}
 

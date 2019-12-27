@@ -15,4 +15,6 @@ class HelperCrud
         $classShortName = lcfirst($classShortName);
         return $nameSpace. '/' . $classShortName . '/' . $functionName . $defaultTemplateExtension;
     }
+
+
 }
