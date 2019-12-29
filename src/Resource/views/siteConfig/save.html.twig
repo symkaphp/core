@@ -4,13 +4,13 @@
 {% block contentTitle %}
     <div class="card card-inverse card-info">
         <div class="card-body">
-            <h5 class="card-title">Site Setting Create New {{ id }}</h5>
+            <h5 class="card-title">Site Setting {{ id is empty ? 'Create New' : 'Update #'~id }}</h5>
 
         </div>
         <div class="card-footer">
 
             <div class="float-left">
-                <a href="{{ path('symka_core_admin_index') }}">Admin</a> / <a href="{{ path('symka_core_admin_site_config_index') }}">Site setting</a> / <strong> Create New </strong>
+                <a href="{{ path('symka_core_admin_index') }}">Admin</a> / <a href="{{ path('symka_core_admin_site_config_index') }}">Site setting</a> / <strong> {{ id is empty ? 'Create New' : 'Update #'~id }} </strong>
             </div>
             <a href="{{ path('symka_core_admin_site_config_index') }}" class="btn btn-warning float-right"><i
                         class="fa fa-arrow-circle-left"></i> Cancel</a>

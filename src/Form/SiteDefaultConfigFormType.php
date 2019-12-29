@@ -40,6 +40,20 @@ class SiteDefaultConfigFormType extends AbstractType
                 ]
             ])
 
+            ->add('templatePath', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
+
+            ->add('adminTemplatePath', TextType::class, [
+                'required' => false,
+                'constraints' => [
+                    new NotBlank()
+                ]
+            ])
+
         ;
     }
 }

@@ -33,6 +33,14 @@ class SiteConfigController extends AbstractCrudController
         $eventDispatcher->addListener(CrudBeforeSaveEventInterface::NAME, function(CrudBeforeSaveEvent $event) {
             $formData = $event->getFormData();
 
+            if (empty($formData->getTemplatePath())) {
+                $formData->setTemplatePath('default');
+            }
+
+            if (empty($formData->getAdminTemplatePath())) {
+                $formData->setAdminTemplatePath('default/admin');
+            }
+
             if ($event->getId() === null) {
                 $formData->setCreatedAt(new \DateTime('now'));
             } else {
