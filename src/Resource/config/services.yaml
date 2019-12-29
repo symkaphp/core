@@ -23,3 +23,10 @@ services:
 
   # add more service definitions when explicit configuration is needed
   # please note that last definitions always *replace* previous ones
+
+  symkaLayout:
+    class: Symka\Core\Twig\Extension\LayoutExtension
+    tags:
+     - { name: twig.extension }
+
+

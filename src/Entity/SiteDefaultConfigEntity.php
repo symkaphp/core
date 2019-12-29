@@ -24,7 +24,7 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private $id;
+    private ?int $id;
 
     /**
      * Site name
@@ -32,53 +32,69 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
      *
      * @ORM\Column(length=65, unique=true)
      */
-    private $name;
+    private ?string $name;
 
     /**
      * Domain
      * @var string
      * @ORM\Column(length=65, unique=true)
      */
-    private $domain;
+    private ?string $domain;
 
     /**
      * Status  active|in develop
      * @var int
      * @ORM\Column(type="smallint")
      */
-    private $status;
+    private ?int $status;
 
     /**
      * Date time of create
      * @var \DateTime
      * @ORM\Column(type="datetime", name="createdAt")
      */
-    private $createdAt;
+    private ?\DateTime $createdAt;
 
     /**
      * Date time of update
      * @var \DateTime
      * @ORM\Column(type="datetime", name="updatedAt", nullable=true)
      */
-    private $updatedAt;
+    private $updatedAt = null;
 
     /**
      * Date time of delete
      * @var \DateTime
      * @ORM\Column(type="datetime", name="deletedAt", nullable=true)
      */
-    private $deletedAt;
+    private ?\DateTime $deletedAt = null;
 
     /**
      * User id
      * @var int
      * @ORM\Column(type="integer", name="authorId", nullable=true)
      */
-    private $authorId;
+    private ?int $authorId = null;
+
+    /**
+     * Frontend template path
+     * @var string|null
+     * @ORM\Column(type="string", length=150, name="templatePath")
+     */
+    private ?string $templatePath;
+
+    /**
+     * Frontend template path
+     * @var string|null
+     * @ORM\Column(type="string", length=150, name="adminTemplatePath")
+     */
+    private ?string $adminTemplatePath;
 
     public function __construct()
     {
         $this->setStatus(self::STATUS_ACTIVE);
+        $this->setTemplatePath('default');
+        $this->setAdminTemplatePath('default/admin');
     }
 
     public function getId(): int
@@ -195,6 +211,43 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
     {
         return self::STATUS_DELETED;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getTemplatePath(): ?string
+    {
+        return $this->templatePath;
+    }
+
+    /**
+     * @param string|null $templatePath
+     * @return SiteDefaultConfigEntity
+     */
+    public function setTemplatePath(?string $templatePath): SiteDefaultConfigEntity
+    {
+        $this->templatePath = $templatePath;
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getAdminTemplatePath(): ?string
+    {
+        return $this->adminTemplatePath;
+    }
+
+    /**
+     * @param string|null $adminTemplatePath
+     * @return SiteDefaultConfigEntity
+     */
+    public function setAdminTemplatePath(?string $adminTemplatePath): SiteDefaultConfigEntity
+    {
+        $this->adminTemplatePath = $adminTemplatePath;
+        return $this;
+    }
+
 
 
 }

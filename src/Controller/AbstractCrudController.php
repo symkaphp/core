@@ -97,7 +97,7 @@ abstract class AbstractCrudController extends AbstractController implements Crud
         $eventDispatcher->dispatch(new CrudBeforeShowGrid($queryBuilder, $paginator), CrudBeforeShowGridInterface::NAME, $activePage);
 
         if ($queryBuilder instanceof QueryBuilder) {
-            $pagination = $paginator->paginate($queryBuilder->getQuery(), $activePage);
+            $pagination = $paginator->paginate($queryBuilder->getQuery(), $activePage, 10, ["distinct" => false]);
             $result['pagination'] = $pagination;
         }
 
@@ -159,10 +159,10 @@ abstract class AbstractCrudController extends AbstractController implements Crud
                     "code" => $crudControllerException->getCode(),
                     "message" => $crudControllerException->getMessage()
                 ]);
-                $eventDispatcher->dispatch(new CrudErrorSaveEvent($formData, $crudControllerException, $id), CrudErrorSaveInterface::NAME);
+                $eventDispatcher->dispatch(new CrudErrorSaveEvent($entity, $crudControllerException, $id), CrudErrorSaveInterface::NAME);
             }
         } catch (\Exception $exception) {
-            $eventDispatcher->dispatch(new CrudErrorSaveEvent($formData, $exception, $id), CrudErrorSaveInterface::NAME);
+            $eventDispatcher->dispatch(new CrudErrorSaveEvent($entity, $exception, $id), CrudErrorSaveInterface::NAME);
             throw $exception;
         }
 
