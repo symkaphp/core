@@ -24,7 +24,7 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * Site name
@@ -32,28 +32,28 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
      *
      * @ORM\Column(length=65, unique=true)
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      * Domain
      * @var string
      * @ORM\Column(length=65, unique=true)
      */
-    private ?string $domain;
+    private ?string $domain = null;
 
     /**
      * Status  active|in develop
      * @var int
      * @ORM\Column(type="smallint")
      */
-    private ?int $status;
+    private ?int $status = null;
 
     /**
      * Date time of create
      * @var \DateTime
      * @ORM\Column(type="datetime", name="createdAt")
      */
-    private ?\DateTime $createdAt;
+    private ?\DateTime $createdAt = null;
 
     /**
      * Date time of update
@@ -81,23 +81,24 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
      * @var string|null
      * @ORM\Column(type="string", length=150, name="templatePath")
      */
-    private ?string $templatePath;
+    private ?string $templatePath = null;
 
     /**
      * Frontend template path
      * @var string|null
      * @ORM\Column(type="string", length=150, name="adminTemplatePath")
      */
-    private ?string $adminTemplatePath;
+    private ?string $adminTemplatePath = null;
 
     public function __construct()
     {
+
         $this->setStatus(self::STATUS_ACTIVE);
         $this->setTemplatePath('default');
         $this->setAdminTemplatePath('default/admin');
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -248,6 +249,10 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
         return $this;
     }
 
+    public function getBasketTitle(): string
+    {
+        return 'Config Site';
+    }
 
 
 }

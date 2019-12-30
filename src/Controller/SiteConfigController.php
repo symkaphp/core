@@ -4,6 +4,8 @@
 namespace Symka\Core\Controller;
 
 
+use Doctrine\ORM\EntityManagerInterface;
+use Psr\Log\LoggerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symka\Core\Entity\SiteDefaultConfigEntity;
@@ -28,7 +30,7 @@ class SiteConfigController extends AbstractCrudController
     protected string $formClass = SiteDefaultConfigFormType::class;
     protected string $redirectAfterSaveRoute = 'symka_core_admin_site_config_index';
 
-    public function __construct(EventDispatcherInterface $eventDispatcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher, EntityManagerInterface $entityManager, LoggerInterface $logger)
     {
         $eventDispatcher->addListener(CrudBeforeSaveEventInterface::NAME, function(CrudBeforeSaveEvent $event) {
             $formData = $event->getFormData();
@@ -48,28 +50,6 @@ class SiteConfigController extends AbstractCrudController
             }
         });
 
-        $eventDispatcher->addListener(CrudAfterSaveEventInterface::NAME, function (CrudAfterSaveEvent $event) {
-            $this->addFlash('success', 'Data saved');
-        });
-
-        $eventDispatcher->addListener(CrudErrorSaveInterface::NAME, function (CrudErrorSaveEvent $event) {
-             if ($event->getException() instanceof CrudControllerException && $event->getException()->getCode() == CrudControllerException::ERROR_VALIDATE) {
-                $this->addFlash('error', 'From not validate');
-             } else {
-                 $this->addFlash('error', 'Some errors');
-             }
-        });
-
-        $eventDispatcher->addListener(CrudErrorDeleteSafeEventInterface::NAME, function (CrudErrorDeleteSafeEvent $event) {
-            if ($event->getException() instanceof CrudControllerException && $event->getException()->getCode() == CrudControllerException::ERROR_DATA_ALREADY_DELETED) {
-                $this->addFlash('error', CrudControllerException::ERROR_DATA_ALREADY_DELETED_MESSAGE);
-            } else {
-                $this->addFlash('error', 'Some errors');
-            }
-        });
-
-        $eventDispatcher->addListener(CrudAfterDeleteSafeEventInterface::NAME, function (CrudAfterDeleteSafeEvent $event) {
-            $this->addFlash('success', 'Data deleted');
-        });
+       parent::__construct($eventDispatcher, $entityManager, $logger);
     }
 }

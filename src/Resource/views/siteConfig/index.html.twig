@@ -17,21 +17,35 @@
 {% endblock %}
     {% block content %}
         {% if pagination is defined and pagination.getTotalItemCount > 0 %}
+            {{ form_start(checkboxItemForm) }}
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">#</th>
+                    <th style="width: 5px"><input type="checkbox" id="selectAllCheckbox"></th>
+
+
                     <th scope="col">Name</th>
                     <th scope="col">Domain</th>
                     <th scope="col">Status</th>
                     <th scope="col">Last</th>
-                    <th scope="col"></th>
+                    <td scope="col" align="right">
+                        <button type="submit" disabled="disabled" class="btn btn-danger" id="buttonDeleteSelected"
+                                onclick="if (confirm('Delete this record?')) {$('#form_actionType').val('delete'); return true; } else { return false; }">
+                            <i class="fa fa-trash"></i> Delete Selected
+                        </button>
+                    </td>
+
                 </tr>
                 </thead>
                 <tbody>
+
                 {% for item in pagination %}
                     <tr>
-                        <th scope="row">{{ item.id }}</th>
+                        <th scope="row">
+                            {{ form_row(checkboxItemForm["items_"~item.id]) }}
+
+                        </th>
+
                         <td>{{ item.name }}</td>
                         <td>{{ item.domain }}</td>
                         <td>
@@ -60,28 +74,16 @@
                         <td align="right">
                             <a href="{{ path('symka_core_admin_site_config_update', {id : item.id}) }}"
                                class="btn btn-success"><i class="fa fa-pencil"></i> Edit</a>
+
                             <a href="{{ path('symka_core_admin_site_config_delete_safe', {id : item.id}) }}"
                                onclick="return confirm('Delete this record?')" class="btn btn-danger"><i
                                         class="fa fa-trash"></i> Delete</a>
                         </td>
                     </tr>
                 {% endfor %}
-
                 </tbody>
-                <tfoot>
-                <tr>
-                    <td colspan="3">
-
-                        <div class="form-group form-check">
-                            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-                            <label class="form-check-label" for="exampleCheck1">Select all</label>
-                        </div>
-
-                    </td>
-                    <td colspan="3" align="right">33</td>
-                </tr>
-                </tfoot>
             </table>
+            {{ form_end(checkboxItemForm) }}
 
             <hr>
             <div class="navigation">
@@ -95,7 +97,25 @@
     {% endblock %}
 
 
+{% block javascriptsBody %}
+    <script type="text/javascript">
+        $(function () {
 
+            $('#buttonDeleteSelected').prop('disabled', ($('.selectItemCheckbox:checked').length == 0));
+
+            $('#selectAllCheckbox').on('click', function () {
+
+                $('.selectItemCheckbox').prop('checked', this.checked);
+                $('#buttonDeleteSelected').prop('disabled', !this.checked);
+            });
+            $('.selectItemCheckbox').on('change', function () {
+                if ($('button').is('#buttonDeleteSelected')) {
+                    $('#buttonDeleteSelected').prop('disabled', ($('.selectItemCheckbox:checked').length == 0));
+                }
+            });
+        });
+    </script>
+{% endblock %}
 
 
 

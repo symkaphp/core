@@ -1,5 +1,5 @@
 <?php
-
+declare(strict_types=1);
 
 namespace Symka\Core\Helper;
 
@@ -16,5 +16,15 @@ class HelperCrud
         return $nameSpace. '/' . $classShortName . '/' . $functionName . $defaultTemplateExtension;
     }
 
+    public static function getMultyItemsIds(array $formData): array
+    {
+        $returnArray = [];
+        foreach ($formData as $key => $value) {
+            if (preg_match('/items_(\d+)/', $key, $res) && isset($res[1]) && $value === true) {
+                $returnArray[] = (int)$res[1];
+            }
+        }
+        return $returnArray;
+    }
 
 }

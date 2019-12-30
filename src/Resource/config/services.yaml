@@ -29,4 +29,6 @@ services:
     tags:
      - { name: twig.extension }
 
-
+  Symka\Core\Event\Subscriber\CrudDeleteSubscriber:
+    tags:
+      - { name: kernel.event_subscriber }

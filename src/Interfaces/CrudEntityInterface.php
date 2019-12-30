@@ -9,6 +9,8 @@ use Symka\Core\Entity\SiteDefaultConfigEntity;
 
 interface CrudEntityInterface
 {
+    public function getId(): ?int;
+
     public function getStatusDeleted(): int;
 
     public function getDeletedAt(): ?\DateTime;
@@ -16,5 +18,7 @@ interface CrudEntityInterface
     public function setDeletedAt(?\DateTime $deletedAt): ?CrudEntityInterface;
 
     public function getStatus(): ?int;
+
+    public function getBasketTitle(): string;
 
 }
