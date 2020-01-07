@@ -16,9 +16,11 @@ class LayoutExtension extends AbstractExtension
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
-        $this->siteConfig = $entityManager
-            ->getRepository(SiteConfigEntity::class)
-            ->getConfigByDomain($requestStack->getCurrentRequest()->getHost());
+        if ($requestStack && $requestStack->getCurrentRequest()) {
+            $this->siteConfig = $entityManager
+                ->getRepository(SiteConfigEntity::class)
+                ->getConfigByDomain($requestStack->getCurrentRequest()->getHost());
+        }
     }
 
     public function getFunctions(): array
