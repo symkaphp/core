@@ -10,9 +10,9 @@
         <div class="card-footer">
 
             <div class="float-left">
-                <a href="{{ path('symka_core_admin_index') }}">Admin</a> / <a href="{{ path('symka_core_admin_site_config_index') }}">Site setting</a> / <strong> {{ id is empty ? 'Create New' : 'Update #'~id }} </strong>
+                <a href="{{ path('symka_core_admin_index') }}">Admin</a> / <a href="{{ path('site.config.controller.index') }}">Site setting</a> / <strong> {{ id is empty ? 'Create New' : 'Update #'~id }} </strong>
             </div>
-            <a href="{{ path('symka_core_admin_site_config_index') }}" class="btn btn-warning float-right"><i
+            <a href="{{ path('site.config.controller.index') }}" class="btn btn-warning float-right"><i
                         class="fa fa-arrow-circle-left"></i> Cancel</a>
         </div>
     </div>
@@ -39,7 +39,7 @@
             </div>
             <div class="card-footer">
                 <small>
-                    {% if form.vars.value.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_ACTIVE') %}
+                    {% if form.vars.value.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_ACTIVE') %}
 
                         {% if form.vars.value.updatedAt is not empty %}
                             Last update: {{ form.vars.value.updatedAt | date('d.m.Y') }}
@@ -47,10 +47,10 @@
                             Created At: {{ form.vars.value.createdAt | date('d.m.Y') }}
                         {% endif %}
 
-                    {% elseif form.vars.value.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_IN_DEVELOP') %}
+                    {% elseif form.vars.value.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_IN_DEVELOP') %}
                         Updated At: {{ form.vars.value.updatedAt | date('d.m.Y') }}
                         <span class="badge badge-pill badge-warning">In develop</span>
-                    {% elseif form.vars.value.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_CLOSE') %}
+                    {% elseif form.vars.value.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_CLOSE') %}
                         Deleted At: {{ form.vars.value.deletedAt | date('d.m.Y') }}
                     {% endif %}
 

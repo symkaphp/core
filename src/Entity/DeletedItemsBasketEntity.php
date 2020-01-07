@@ -3,13 +3,14 @@
 
 namespace Symka\Core\Entity;
 use Doctrine\ORM\Mapping as ORM;
+use Symka\Core\Interfaces\CrudEntityInterface;
 
 /**
  * @ORM\Entity(repositoryClass="Symka\Core\Repository\DeletedItemsBasketRepository")
  * @ORM\Table(name="DeletedItemsBasket")
  */
 
-class DeletedItemsBasketEntity
+class DeletedItemsBasketEntity implements CrudEntityInterface
 {
     /**
      * @ORM\Id
@@ -38,6 +39,13 @@ class DeletedItemsBasketEntity
      * @ORM\Column(type="string", length=50, name="title", nullable=true)
      */
     private ?string $title = null;
+
+    /**
+     * Title
+     * @var string|null
+     * @ORM\Column(type="string", length=50, name="itemTitle", nullable=true)
+     */
+    private ?string $itemTitle = null;
 
     /**
      * @var int|null
@@ -116,4 +124,31 @@ class DeletedItemsBasketEntity
         $this->itemId = $itemId;
         return $this;
     }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getItemTitle(): ?string
+    {
+        return $this->itemTitle;
+    }
+
+    /**
+     * @param string|null $itemTitle
+     * @return DeletedItemsBasketEntity
+     */
+    public function setItemTitle(?string $itemTitle): DeletedItemsBasketEntity
+    {
+        $this->itemTitle = $itemTitle;
+        return $this;
+    }
+
+
+
+
 }

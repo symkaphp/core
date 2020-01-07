@@ -1,0 +1,109 @@
+{% extends '@SymkaCoreBundle/Resource/views/admin/layout.html.twig' %}
+{% block contentTitle %}
+    <div class="card card-inverse card-info">
+        <div class="card-body">
+            <h5 class="card-title">Basket</h5>
+
+        </div>
+        <div class="card-footer">
+
+            <div class="float-left">
+                <a href="#">Admin</a> / <strong>Basket</strong>
+            </div>
+
+        </div>
+    </div>
+{% endblock %}
+    {% block content %}
+        {% if pagination is defined and pagination.getTotalItemCount > 0 %}
+            {{ form_start(checkboxItemForm) }}
+            <table class="table">
+                <thead class="thead-dark">
+                <tr>
+                    <th style="width: 5px"><input type="checkbox" id="selectAllCheckbox"></th>
+
+
+                    <th scope="col">Title</th>
+                    <th scope="col">Record</th>
+                    <th scope="col">Record Id</th>
+                    <th scope="col">Date</th>
+                    <td scope="col" align="right">
+                        <button type="submit" disabled="disabled" class="btn btn-primary  multy-select-items-button" id="buttonBackupSelected"
+                                onclick="if (confirm('Backup this record?')) {$('#form_actionType').val('{{ constant('Symka\\Core\\Controller\\DeletedItemsBasketController::BACKUP_STATUS') }}'); return true; } else { return false; }">
+                            <i class="fa fa-refresh"></i> Backup Selected
+                        </button>
+                        <button type="submit" disabled="disabled" class="btn btn-danger multy-select-items-button" id="buttonDeleteSelected"
+                                onclick="if (confirm('Delete this record?')) {$('#form_actionType').val('{{ constant('Symka\\Core\\Controller\\DeletedItemsBasketController::DELETE_STATUS') }}'); return true; } else { return false; }">
+                            <i class="fa fa-trash"></i> Delete Selected
+                        </button>
+
+                    </td>
+
+                </tr>
+                </thead>
+                <tbody>
+
+                {% for item in pagination %}
+                    <tr>
+                        <th scope="row">
+                            {{ form_row(checkboxItemForm["items_"~item.id]) }}
+
+                        </th>
+
+                        <td>{{ item.title }}</td>
+                        <td>{{ item.itemTitle }}</td>
+                        <td>{{ item.itemId }}</td>
+                        <td>
+
+                                Deleted At: {{ item.createdAt | date('d.m.Y') }}
+
+                        </td>
+                        <td align="right">
+                            <a href="{{ path('deleted.items.basket.controller.backup', {id : item.id}) }}"
+                               class="btn btn-primary"><i class="fa fa-refresh"></i> Backup </a>
+
+                            <a href="{{ path('deleted.items.basket.controller.delete.safe', {id : item.id}) }}"
+                               onclick="return confirm('Delete this record?')" class="btn btn-danger"><i
+                                        class="fa fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+            {{ form_end(checkboxItemForm) }}
+
+            <hr>
+            <div class="navigation">
+                {{ knp_pagination_render(pagination, '@KnpPaginatorBundle/templates/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                Data not found
+            </div>
+        {% endif %}
+    {% endblock %}
+
+
+{% block javascriptsBody %}
+    <script type="text/javascript">
+        $(function () {
+
+            $('.multy-select-items-button').prop('disabled', ($('.selectItemCheckbox:checked').length == 0));
+
+            $('#selectAllCheckbox').on('click', function () {
+
+                $('.selectItemCheckbox').prop('checked', this.checked);
+                $('.multy-select-items-button').prop('disabled', !this.checked);
+            });
+            $('.selectItemCheckbox').on('change', function () {
+                if ($('button').is('.multy-select-items-button')) {
+                    $('.multy-select-items-button').prop('disabled', ($('.selectItemCheckbox:checked').length == 0));
+                }
+            });
+        });
+    </script>
+{% endblock %}
+
+
+
+

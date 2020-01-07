@@ -1,8 +1,14 @@
 {% extends '@SymkaCoreBundle/Resource/views/admin/layout.html.twig' %}
 {% block contentTitle %}
+
     <div class="card card-inverse card-info">
         <div class="card-body">
-            <h5 class="card-title">Site Setting</h5>
+            <h5 class="card-title">Site Setting
+                {% if deletedCount > 0 %}
+                    <a href="{{ path('deleted.items.basket.controller.index') }}" class="btn btn-1 pull-right"><i
+                                class="fa fa-trash"></i> Deleted: {{ deletedCount }} Go to basket</a>
+                {% endif %}
+            </h5>
 
         </div>
         <div class="card-footer">
@@ -10,7 +16,7 @@
             <div class="float-left">
                 <a href="#">Admin</a> / <strong> Site setting </strong>
             </div>
-            <a href="{{ path('symka_core_admin_site_config_create') }}" class="btn btn-info float-right"><i
+            <a href="{{ path('site.config.controller.create') }}" class="btn btn-info float-right"><i
                         class="fa fa-plus-circle"></i> Create new</a>
         </div>
     </div>
@@ -49,33 +55,33 @@
                         <td>{{ item.name }}</td>
                         <td>{{ item.domain }}</td>
                         <td>
-                            {% if item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_ACTIVE') %}
+                            {% if item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_ACTIVE') %}
                                 <span class="badge badge-pill badge-success">Active</span>
-                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_IN_DEVELOP') %}
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_IN_DEVELOP') %}
                                 <span class="badge badge-pill badge-warning">In develop</span>
-                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_DELETED') %}
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_DELETED') %}
                                 <span class="badge badge-pill badge-danger">Deleted</span>
-                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_CLOSE') %}
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_CLOSE') %}
                                 <span class="badge badge-pill badge-secondary">Closed</span>
                             {% endif %}
                         </td>
                         <td>
-                            {% if item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_ACTIVE') %}
+                            {% if item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_ACTIVE') %}
                                 Created At: {{ item.createdAt | date('d.m.Y') }}
-                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_IN_DEVELOP') %}
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_IN_DEVELOP') %}
                                 Updated At: {{ item.updatedAt | date('d.m.Y') }}
                                 <span class="badge badge-pill badge-warning">In develop</span>
-                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_CLOSE') %}
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_CLOSE') %}
                                 Closef At: {{ item.updatedAt | date('d.m.Y') }}
-                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_DELETED') %}
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_DELETED') %}
                                 Deleted At: {{ item.deletedAt | date('d.m.Y') }}
                             {% endif %}
                         </td>
                         <td align="right">
-                            <a href="{{ path('symka_core_admin_site_config_update', {id : item.id}) }}"
+                            <a href="{{ path('site.config.controller.update', {id : item.id}) }}"
                                class="btn btn-success"><i class="fa fa-pencil"></i> Edit</a>
 
-                            <a href="{{ path('symka_core_admin_site_config_delete_safe', {id : item.id}) }}"
+                            <a href="{{ path('site.config.controller.delete.safe', {id : item.id}) }}"
                                onclick="return confirm('Delete this record?')" class="btn btn-danger"><i
                                         class="fa fa-trash"></i> Delete</a>
                         </td>

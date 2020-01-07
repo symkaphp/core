@@ -5,12 +5,12 @@ namespace Symka\Core\Repository;
 
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
-use Symka\Core\Entity\SiteDefaultConfigEntity;
+use Symka\Core\Entity\SiteConfigEntity;
 use Twig\Extension\GlobalsInterface;
 
-class SiteDefaultConfigRepository extends EntityRepository
+class SiteConfigEntityRepository extends EntityRepository
 {
-    public function getConfigByDomain(string $domain): ?SiteDefaultConfigEntity
+    public function getConfigByDomain(string $domain): ?SiteConfigEntity
     {
         return $this->getByDomainQueryBuilder($domain)->getQuery()->getOneOrNullResult();
     }

@@ -9,10 +9,10 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Validator\Constraints\NotBlank;
-use Symka\Core\Entity\SiteDefaultConfigEntity;
+use Symka\Core\Entity\SiteConfigEntity;
 
 
-class SiteDefaultConfigFormType extends AbstractType
+class SiteConfigFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -31,9 +31,9 @@ class SiteDefaultConfigFormType extends AbstractType
             ])
             ->add('status', ChoiceType::class, [
                 'choices' => [
-                    'In develop' => SiteDefaultConfigEntity::STATUS_IN_DEVELOP,
-                    'Active' => SiteDefaultConfigEntity::STATUS_ACTIVE,
-                    'Close' => SiteDefaultConfigEntity::STATUS_CLOSE
+                    'In develop' => SiteConfigEntity::STATUS_IN_DEVELOP,
+                    'Active' => SiteConfigEntity::STATUS_ACTIVE,
+                    'Close' => SiteConfigEntity::STATUS_CLOSE
                 ],
                 'constraints' => [
                     new NotBlank()
