@@ -1,13 +1,7 @@
 {% extends  'base-admin.html.twig' %}
 
-
   {% block body %}
       <body>
-
-
-
-
-
       {% if app.environment == 'test' %}
           <div id="test-info-controller-route" style="display: none;">{{ app.request.attributes.get("_route") }}</div>
           <div id="test-info-controller-name" style="display: none;">{{ app.request.attributes.get("_controller") }}</div>
@@ -435,6 +429,27 @@
               {% endblock %}
           </div>
       </div>
+      {% block javascripts %}
+          <script src="{{ asset(domainPath~'/js/jquery.min.js') }}"></script>
+          <script src="{{ asset(domainPath~'/js/popper/popper.min.js') }}"></script>
+          <script src="{{ asset(domainPath~'/js/tether.min.js') }}"></script>
+          <script src="{{ asset(domainPath~'/js/bootstrap.min.js') }}"></script>
+          <script src="{{ asset(domainPath~'/js/jquery.cookie.js') }}"></script>
+          <script src="{{ asset(domainPath~'/js/jquery.validate.min.js') }}"></script>
+          {#<script src="{{ asset(domainPath~'/js/chart.min.js') }}"></script>#}
+          <script src="{{ asset(domainPath~'/js/front.js') }}"></script>
+
+          <!--Core Javascript -->
+          {#<script src="{{ asset(domainPath~'/js/mychart.js') }}"></script>#}
+
+      {% endblock %}
+
+
+
+
+      {% block javascriptsBody %}
+
+      {% endblock %}
 
       </body>
   {% endblock %}

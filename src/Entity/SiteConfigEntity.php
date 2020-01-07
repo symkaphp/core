@@ -5,26 +5,24 @@ namespace Symka\Core\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symka\Core\Interfaces\CrudEntityInterface;
+use Symka\Core\Interfaces\CrudEntitySafeDeleteInterface;
 
 /**
- * @ORM\Entity(repositoryClass="Symka\Core\Repository\SiteDefaultConfigRepository")
- * @ORM\Table(name="SiteDefaultConfig")
+ * @ORM\Entity(repositoryClass="Symka\Core\Repository\SiteConfigEntityRepository")
+ * @ORM\Table(name="SiteConfigEntity")
  */
 
-class SiteDefaultConfigEntity implements CrudEntityInterface
+class SiteConfigEntity implements CrudEntitySafeDeleteInterface
 {
-
-    const STATUS_ACTIVE = 1;
     const STATUS_IN_DEVELOP = 2;
     const STATUS_CLOSE = 3;
-    const STATUS_DELETED = 4;
 
     /**
      * @ORM\Id
      * @ORM\GeneratedValue
      * @ORM\Column(type="integer")
      */
-    private ?int $id;
+    private ?int $id = null;
 
     /**
      * Site name
@@ -32,28 +30,28 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
      *
      * @ORM\Column(length=65, unique=true)
      */
-    private ?string $name;
+    private ?string $name = null;
 
     /**
      * Domain
      * @var string
      * @ORM\Column(length=65, unique=true)
      */
-    private ?string $domain;
+    private ?string $domain = null;
 
     /**
      * Status  active|in develop
      * @var int
      * @ORM\Column(type="smallint")
      */
-    private ?int $status;
+    private ?int $status = null;
 
     /**
      * Date time of create
      * @var \DateTime
      * @ORM\Column(type="datetime", name="createdAt")
      */
-    private ?\DateTime $createdAt;
+    private ?\DateTime $createdAt = null;
 
     /**
      * Date time of update
@@ -81,23 +79,24 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
      * @var string|null
      * @ORM\Column(type="string", length=150, name="templatePath")
      */
-    private ?string $templatePath;
+    private ?string $templatePath = null;
 
     /**
      * Frontend template path
      * @var string|null
      * @ORM\Column(type="string", length=150, name="adminTemplatePath")
      */
-    private ?string $adminTemplatePath;
+    private ?string $adminTemplatePath = null;
 
     public function __construct()
     {
+
         $this->setStatus(self::STATUS_ACTIVE);
         $this->setTemplatePath('default');
         $this->setAdminTemplatePath('default/admin');
     }
 
-    public function getId(): int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -129,7 +128,7 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
         return $this->status;
     }
 
-    public function setStatus(?int $status): self
+    public function setStatus(?int $status): ?CrudEntityInterface
     {
         $this->status = $status;
         return $this;
@@ -145,9 +144,9 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
 
     /**
      * @param \DateTime $createdAt
-     * @return SiteDefaultConfigEntity
+     * @return SiteConfigEntity
      */
-    public function setCreatedAt(?\DateTime $createdAt): SiteDefaultConfigEntity
+    public function setCreatedAt(?\DateTime $createdAt): SiteConfigEntity
     {
         $this->createdAt = $createdAt;
         return $this;
@@ -163,9 +162,9 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
 
     /**
      * @param \DateTime $updatedAt
-     * @return SiteDefaultConfigEntity
+     * @return SiteConfigEntity
      */
-    public function setUpdatedAt(?\DateTime $updatedAt): SiteDefaultConfigEntity
+    public function setUpdatedAt(?\DateTime $updatedAt): SiteConfigEntity
     {
         $this->updatedAt = $updatedAt;
         return $this;
@@ -181,7 +180,7 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
 
     /**
      * @param \DateTime $deletedAt
-     * @return SiteDefaultConfigEntity
+     * @return SiteConfigEntity
      */
     public function setDeletedAt(?\DateTime $deletedAt): ?CrudEntityInterface
     {
@@ -199,17 +198,12 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
 
     /**
      * @param int $authorId
-     * @return SiteDefaultConfigEntity
+     * @return SiteConfigEntity
      */
-    public function setAuthorId(?int $authorId): SiteDefaultConfigEntity
+    public function setAuthorId(?int $authorId): SiteConfigEntity
     {
         $this->authorId = $authorId;
         return $this;
-    }
-
-    public function getStatusDeleted(): int
-    {
-        return self::STATUS_DELETED;
     }
 
     /**
@@ -222,9 +216,9 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
 
     /**
      * @param string|null $templatePath
-     * @return SiteDefaultConfigEntity
+     * @return SiteConfigEntity
      */
-    public function setTemplatePath(?string $templatePath): SiteDefaultConfigEntity
+    public function setTemplatePath(?string $templatePath): SiteConfigEntity
     {
         $this->templatePath = $templatePath;
         return $this;
@@ -240,14 +234,23 @@ class SiteDefaultConfigEntity implements CrudEntityInterface
 
     /**
      * @param string|null $adminTemplatePath
-     * @return SiteDefaultConfigEntity
+     * @return SiteConfigEntity
      */
-    public function setAdminTemplatePath(?string $adminTemplatePath): SiteDefaultConfigEntity
+    public function setAdminTemplatePath(?string $adminTemplatePath): SiteConfigEntity
     {
         $this->adminTemplatePath = $adminTemplatePath;
         return $this;
     }
 
+    public function getBasketTitle(): string
+    {
+        return 'Config Site';
+    }
+
+    public function getBasketItemTitle(): string
+    {
+        return $this->getName();
+    }
 
 
 }

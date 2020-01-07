@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<routes xmlns="http://symfony.com/schema/routing"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
+
+    <route id="site.config.controller.index" path="/site-config"
+           controller="Symka\Core\Controller\SiteConfigController::index" methods="GET,POST"/>
+
+    <route id="site.config.controller.create" path="/site-config-create"
+           controller="Symka\Core\Controller\SiteConfigController::save" methods="GET,POST"/>
+
+    <route id="site.config.controller.update" path="/site-config-update/{id}"
+           controller="Symka\Core\Controller\SiteConfigController::save" methods="GET,POST">
+        <requirement key="id">\d+</requirement>
+    </route>
+
+    <route id="site.config.controller.delete.safe" path="/site-config-delete/{id}"
+           controller="Symka\Core\Controller\SiteConfigController::deleteSafe" methods="GET">
+        <requirement key="id">\d+</requirement>
+    </route>
+</routes>

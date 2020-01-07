@@ -1,8 +1,14 @@
 {% extends '@SymkaCoreBundle/Resource/views/admin/layout.html.twig' %}
 {% block contentTitle %}
+
     <div class="card card-inverse card-info">
         <div class="card-body">
-            <h5 class="card-title">Site Setting</h5>
+            <h5 class="card-title">Site Setting
+                {% if deletedCount > 0 %}
+                    <a href="{{ path('deleted.items.basket.controller.index') }}" class="btn btn-1 pull-right"><i
+                                class="fa fa-trash"></i> Deleted: {{ deletedCount }} Go to basket</a>
+                {% endif %}
+            </h5>
 
         </div>
         <div class="card-footer">
@@ -10,66 +16,86 @@
             <div class="float-left">
                 <a href="#">Admin</a> / <strong> Site setting </strong>
             </div>
-            <a href="{{ path('symka_core_admin_site_config_create') }}" class="btn btn-info float-right"><i class="fa fa-plus-circle"></i> Create new</a>
+            <a href="{{ path('site.config.controller.create') }}" class="btn btn-info float-right"><i
+                        class="fa fa-plus-circle"></i> Create new</a>
         </div>
     </div>
 {% endblock %}
     {% block content %}
         {% if pagination is defined and pagination.getTotalItemCount > 0 %}
+            {{ form_start(checkboxItemForm) }}
             <table class="table">
                 <thead class="thead-dark">
                 <tr>
-                    <th scope="col">#</th>
+                    <th style="width: 5px"><input type="checkbox" id="selectAllCheckbox"></th>
+
+
                     <th scope="col">Name</th>
                     <th scope="col">Domain</th>
                     <th scope="col">Status</th>
                     <th scope="col">Last</th>
-                    <th scope="col"></th>
+                    <td scope="col" align="right">
+                        <button type="submit" disabled="disabled" class="btn btn-danger" id="buttonDeleteSelected"
+                                onclick="if (confirm('Delete this record?')) {$('#form_actionType').val('delete'); return true; } else { return false; }">
+                            <i class="fa fa-trash"></i> Delete Selected
+                        </button>
+                    </td>
+
                 </tr>
                 </thead>
                 <tbody>
-                {% for item in pagination %}
-                <tr>
-                    <th scope="row">{{ item.id }}</th>
-                    <td>{{ item.name }}</td>
-                    <td>{{ item.domain }}</td>
-                    <td>
-                        {% if item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_ACTIVE') %}
-                            <span class="badge badge-pill badge-success">Active</span>
-                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_IN_DEVELOP') %}
-                            <span class="badge badge-pill badge-warning">In develop</span>
-                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_DELETED') %}
-                            <span class="badge badge-pill badge-danger">Deleted</span>
-                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_CLOSE') %}
-                            <span class="badge badge-pill badge-secondary">Closed</span>
-                        {% endif %}
-                    </td>
-                    <td>
-                        {% if item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_ACTIVE') %}
-                            Created At: {{ item.createdAt | date('d.m.Y') }}
-                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_IN_DEVELOP') %}
-                            Updated At: {{ item.updatedAt | date('d.m.Y') }}
-                            <span class="badge badge-pill badge-warning">In develop</span>
-                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_CLOSE') %}
-                            Closef At: {{ item.updatedAt | date('d.m.Y') }}
-                        {% elseif item.status is constant('Symka\\Core\\Entity\\SiteDefaultConfigEntity::STATUS_DELETED') %}
-                            Deleted At: {{ item.deletedAt | date('d.m.Y') }}
-                        {% endif %}
-                    </td>
-                    <td align="right">
-                        <a href="{{ path('symka_core_admin_site_config_update', {id : item.id}) }}" class="btn btn-success"><i class="fa fa-pencil"></i> Edit</a>
-                        <a href="{{ path('symka_core_admin_site_config_delete_safe', {id : item.id}) }}" onclick="return confirm('Delete this record?')" class="btn btn-danger"><i class="fa fa-trash"></i> Delete</a>
-                    </td>
-                </tr>
-                {% endfor %}
 
+                {% for item in pagination %}
+                    <tr>
+                        <th scope="row">
+                            {{ form_row(checkboxItemForm["items_"~item.id]) }}
+
+                        </th>
+
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.domain }}</td>
+                        <td>
+                            {% if item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_ACTIVE') %}
+                                <span class="badge badge-pill badge-success">Active</span>
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_IN_DEVELOP') %}
+                                <span class="badge badge-pill badge-warning">In develop</span>
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_DELETED') %}
+                                <span class="badge badge-pill badge-danger">Deleted</span>
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_CLOSE') %}
+                                <span class="badge badge-pill badge-secondary">Closed</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            {% if item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_ACTIVE') %}
+                                Created At: {{ item.createdAt | date('d.m.Y') }}
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_IN_DEVELOP') %}
+                                Updated At: {{ item.updatedAt | date('d.m.Y') }}
+                                <span class="badge badge-pill badge-warning">In develop</span>
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_CLOSE') %}
+                                Closef At: {{ item.updatedAt | date('d.m.Y') }}
+                            {% elseif item.status is constant('Symka\\Core\\Entity\\SiteConfigEntity::STATUS_DELETED') %}
+                                Deleted At: {{ item.deletedAt | date('d.m.Y') }}
+                            {% endif %}
+                        </td>
+                        <td align="right">
+                            <a href="{{ path('site.config.controller.update', {id : item.id}) }}"
+                               class="btn btn-success"><i class="fa fa-pencil"></i> Edit</a>
+
+                            <a href="{{ path('site.config.controller.delete.safe', {id : item.id}) }}"
+                               onclick="return confirm('Delete this record?')" class="btn btn-danger"><i
+                                        class="fa fa-trash"></i> Delete</a>
+                        </td>
+                    </tr>
+                {% endfor %}
                 </tbody>
             </table>
+            {{ form_end(checkboxItemForm) }}
+
             <hr>
             <div class="navigation">
                 {{ knp_pagination_render(pagination, '@KnpPaginatorBundle/templates/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
             </div>
-         {% else %}
+        {% else %}
             <div class="alert alert-info">
                 Data not found
             </div>
@@ -77,7 +103,25 @@
     {% endblock %}
 
 
+{% block javascriptsBody %}
+    <script type="text/javascript">
+        $(function () {
 
+            $('#buttonDeleteSelected').prop('disabled', ($('.selectItemCheckbox:checked').length == 0));
+
+            $('#selectAllCheckbox').on('click', function () {
+
+                $('.selectItemCheckbox').prop('checked', this.checked);
+                $('#buttonDeleteSelected').prop('disabled', !this.checked);
+            });
+            $('.selectItemCheckbox').on('change', function () {
+                if ($('button').is('#buttonDeleteSelected')) {
+                    $('#buttonDeleteSelected').prop('disabled', ($('.selectItemCheckbox:checked').length == 0));
+                }
+            });
+        });
+    </script>
+{% endblock %}
 
 
 

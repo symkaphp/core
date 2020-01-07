@@ -8,11 +8,11 @@ use Symka\Core\Interfaces\CrudEntityInterface;
 
 abstract class CrudErrorDataEventAbstract extends Event
 {
-    protected CrudEntityInterface $entity;
+    protected ?CrudEntityInterface $entity;
     protected ?int $id = null;
     protected \Exception $exception;
 
-    public function __construct(CrudEntityInterface $entity, \Exception $exception, ?int $id = null)
+    public function __construct(?CrudEntityInterface $entity, \Exception $exception, ?int $id = null)
     {
         $this->entity = $entity;
         $this->id = $id;

@@ -6,18 +6,18 @@ namespace Symka\Core\Twig\Extension;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
-use Symka\Core\Entity\SiteDefaultConfigEntity;
+use Symka\Core\Entity\SiteConfigEntity;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
 class LayoutExtension extends AbstractExtension
 {
-    private ?SiteDefaultConfigEntity $siteConfig;
+    private ?SiteConfigEntity $siteConfig;
 
     public function __construct(RequestStack $requestStack, EntityManagerInterface $entityManager)
     {
         $this->siteConfig = $entityManager
-            ->getRepository(SiteDefaultConfigEntity::class)
+            ->getRepository(SiteConfigEntity::class)
             ->getConfigByDomain($requestStack->getCurrentRequest()->getHost());
     }
 
