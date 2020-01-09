@@ -16,17 +16,7 @@ class SymkaCoreExtension extends Extension
      */
     public function load(array $configs, ContainerBuilder $container)
     {
-        $configuration = new Configuration();
-        $this->processConfiguration($configuration, $configs);
-
-        foreach ($configs as $config) {
-           if (isset($config["admin_vertical_menu"])) {
-               $container->setParameter('admin_vertical_menu', $config['admin_vertical_menu']);
-           }
-        }
-
         $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resource/config'));
         $loader->load('services.yaml');
-      //  $loader->load('validation.yaml');
     }
 }
