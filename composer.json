@@ -15,7 +15,6 @@
         }
     },
     "require": {
-
         "php" : ">=7.4",
         "knplabs/knp-paginator-bundle": "^5.0",
         "doctrine/doctrine-migrations-bundle" : "^2.0"
