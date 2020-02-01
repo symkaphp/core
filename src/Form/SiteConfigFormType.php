@@ -54,6 +54,15 @@ class SiteConfigFormType extends AbstractType
                 ]
             ])
 
+            ->add('save', SubmitType::class, [
+
+                'label' => 'Save'
+            ])
+
+            ->add('saveAndCreateNew', SubmitType::class, [
+                'label' => 'Save And Create New'
+            ])
+
         ;
     }
 }

@@ -29,6 +29,16 @@ services:
     tags:
      - { name: twig.extension }
 
+  symkaTestTwigHelper:
+    class: Symka\Core\Twig\Extension\TestHelperExtension
+    tags:
+      - { name: twig.extension }
+
   Symka\Core\Event\Subscriber\CrudSubscriber:
     tags:
       - { name: kernel.event_subscriber }
+
+  form_extension.button_icon:
+    class: Symka\Core\Form\Extension\ButtonTypeIconExtension
+    tags:
+      - { name: form.type_extension, extended_type: Symfony\Component\Form\Extension\Core\Type\ButtonType }

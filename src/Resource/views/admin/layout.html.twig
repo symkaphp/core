@@ -47,7 +47,7 @@
               <div class="sidebar-header d-flex align-items-center">
                   <div class="avatar"><img src="{{ asset(domainPath~'/img/avatar-1.jpg') }}" alt="..." class="img-fluid rounded-circle"></div>
                   <div class="title">
-                      <h1 class="h4">Steena Ben</h1>
+                      <div class="h4">Steena Ben</div>
                   </div>
               </div>
               <hr>
@@ -55,7 +55,7 @@
               <ul class="list-unstyled">
 
                   <li class="{{ app.request.get('_route') == 'symka_core_admin_index' ? 'active' }}"><a href="{{ path('symka_core_admin_index') }}"><i class="fa fa-home"></i>Home</a></li>
-                  <li class="{{ app.request.get('_route') == 'ssite.config.controller.index' ? 'active' }}"><a href="{{ path('site.config.controller.index') }}"><i class="fa fa-gear"></i>Config Sites</a></li>
+                  <li class="{{ app.request.get('_route') == 'ssite.config.controller.index' ? 'active' }}"><a href="{{ path('site.config.controller.index') }}"><i class="fa fa-gear"></i>Site Setting</a></li>
                   <li class="{{ app.request.get('_route') == 'deleted.items.basket.controller.index' ? 'active' }}"><a href="{{ path('deleted.items.basket.controller.index') }}"><i class="fa fa-trash"></i>Basket</a></li>
 
               </ul>
@@ -65,29 +65,28 @@
           <div class="content-inner">
 
               {% block contentTitle %}
+
               {% endblock %}
 
-
               {% block message %}
+
                   {% for message in app.flashes('success') %}
-                      <div class="alert alert-success">
+                      <div class="alert alert-success" {{ testTag('Symka\\Core\\Interfaces\\SymkaWebTestInterface::SUCCESS_MESSAGE',  app.request.get('_controller')) | raw }}>
                           {{ message }}
                       </div>
                   {% endfor %}
 
                   {% for message in app.flashes('error') %}
-                      <div class="alert alert-danger">
+                      <div class="alert alert-danger" {{ testTag('Symka\\Core\\Interfaces\\SymkaWebTestInterface::ERROR_MESSAGE',  app.request.get('_controller')) | raw }}>
                           {{ message }}
                       </div>
                   {% endfor %}
 
               {% endblock %}
 
-
               {% block content %}
 
               {% endblock %}
-
 
               {% block footer %}
                   {#  <div class="row" id="report4">

@@ -3,21 +3,21 @@
 
     <div class="card card-inverse card-info">
         <div class="card-body">
-            <h5 class="card-title">Site Setting
-                {% if deletedCount > 0 %}
-                    <a href="{{ path('deleted.items.basket.controller.index') }}" class="btn btn-1 pull-right"><i
-                                class="fa fa-trash"></i> Deleted: {{ deletedCount }} Go to basket</a>
-                {% endif %}
-            </h5>
-
+            <h1 class="card-title" {{ testTag('h1_index_page',  app.request.get('_controller')) | raw }}>Site Setting
+                <a href="{{ path('deleted.items.basket.controller.index') }}" class="btn btn-1 pull-right" {{ testTag('Symka\\Core\\Tests\\Controller\\DeletedItemsBasketControllerTest::H1_INDEX_PAGE',  app.request.get('_controller')) | raw }}>
+                    <i class="fa fa-trash"></i> Deleted: {{ deletedCount }} Go to basket
+                </a>
+            </h1>
         </div>
-        <div class="card-footer">
 
+        <div class="card-footer">
             <div class="float-left">
-                <a href="#">Admin</a> / <strong> Site setting </strong>
+                <a href="{{ path('symka_core_admin_index') }}" {{ testTag('Symka\\Core\\Tests\\Controller\\AdminControllerIndexTest::H1_INDEX_PAGE',  app.request.get('_controller')) | raw }}>Admin Panel</a>
+                / <strong> Site setting </strong>
             </div>
-            <a href="{{ path('site.config.controller.create') }}" class="btn btn-info float-right"><i
-                        class="fa fa-plus-circle"></i> Create new</a>
+            <a href="{{ path('site.config.controller.create') }}" class="btn btn-info float-right" {{ testTag('Symka\\Core\\Tests\\Controller\\SiteConfigControllerCreateTest::H1_INDEX_PAGE',  app.request.get('_controller')) | raw }}>
+                    <i class="fa fa-plus-circle"></i> Create new
+            </a>
         </div>
     </div>
 {% endblock %}
@@ -96,9 +96,10 @@
                 {{ knp_pagination_render(pagination, '@KnpPaginatorBundle/templates/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
             </div>
         {% else %}
-            <div class="alert alert-info">
+            <div class="alert alert-info" {{ testTag('DATA_IS_EMPTY',  app.request.get('_controller')) | raw }}>
                 Data not found
             </div>
+
         {% endif %}
     {% endblock %}
 

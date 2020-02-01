@@ -5,5 +5,5 @@
         xsi:schemaLocation="http://symfony.com/schema/routing http://symfony.com/schema/routing/routing-1.0.xsd">
 
     <route id="symka_core_admin_index" path="/"
-           controller="Symka\Core\Controller\AdminController::indexAction" methods="GET"/>
+           controller="Symka\Core\Controller\AdminController::index" methods="GET"/>
 </routes>

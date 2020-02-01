@@ -91,10 +91,9 @@ abstract class AbstractCrudController extends AbstractController implements Crud
     const DELETE_STATUS = 'delete';
     protected ?string $entityClass = '';
     protected ?string $formClass = '';
-    protected string $redirectAfterSaveRoute;
     protected CrudRoutesEntity $crudRoutes;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher, RouterInterface $router)
+    public function __construct(EventDispatcherInterface $eventDispatcher)
     {
         $this->crudRoutes = $this->getCrudRoutes($this);
         $this->formClass = $this->getFormClass($this);
@@ -103,7 +102,7 @@ abstract class AbstractCrudController extends AbstractController implements Crud
 
     }
 
-    public function index(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher, PaginatorInterface $paginator, LoggerInterface $logger): Response
+    public function index(Request $request, EntityManagerInterface $entityManager, EventDispatcherInterface $eventDispatcher, PaginatorInterface $paginator): Response
     {
         $result = [];
         $activePage = (int)$request->query->getInt('page', 1);
@@ -136,6 +135,7 @@ abstract class AbstractCrudController extends AbstractController implements Crud
                 $eventDispatcher->dispatch(new CrudMultyItemFormEvent($form), CrudMultyItemFormEvent::NAME);
 
                 if ($form->isSubmitted()) {
+
                     if (!$form->isValid()) {
                         $this->addFlash('error', 'From not validate');
                     } else {
@@ -185,7 +185,6 @@ abstract class AbstractCrudController extends AbstractController implements Crud
             $form->handleRequest($request);
 
             if ($form->isSubmitted()) {
-
                 $formData = $form->getData();
                 $eventDispatcher->dispatch(new CrudBeforeSaveEvent($formData, $id), CrudBeforeSaveEventInterface::NAME);
 
@@ -196,7 +195,11 @@ abstract class AbstractCrudController extends AbstractController implements Crud
                             $entityManager->persist($formData);
                         }
                         $entityManager->flush();
-                        $entityManager->commit();
+
+                        if (!defined('NO_COMMIT_BY_TEST')) {
+                            $entityManager->commit();
+                        }
+
                         $eventDispatcher->dispatch(new CrudAfterSaveEvent($formData), CrudAfterSaveEventInterface::NAME);
 
                     } catch (\Exception $exception) {
@@ -205,9 +208,10 @@ abstract class AbstractCrudController extends AbstractController implements Crud
                         $eventDispatcher->dispatch(new CrudErrorSaveEvent($formData, $exception, $id), CrudErrorSaveInterface::NAME);
                     }
 
-                    if ($request->request->get('is_save_and_create') == '1') {
+                    if ($form->get('saveAndCreateNew')->isClicked()) {
                         return $this->redirectToRoute($this->crudRoutes->getCreateRoute());
                     }
+
                     return $this->redirectToRoute($this->crudRoutes->getRedirectAfterSaveRoute(), $this->crudRoutes->getParams());
 
                 } else {
@@ -285,6 +289,7 @@ abstract class AbstractCrudController extends AbstractController implements Crud
     protected function addListeners(EventDispatcherInterface $eventDispatcher): void
     {
         $eventDispatcher->addListener(CrudAfterSaveEventInterface::NAME, function (CrudAfterSaveEvent $event) {
+            
             $this->addFlash('success', 'Data saved');
         });
 

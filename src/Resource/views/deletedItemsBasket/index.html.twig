@@ -2,13 +2,17 @@
 {% block contentTitle %}
     <div class="card card-inverse card-info">
         <div class="card-body">
-            <h5 class="card-title">Basket</h5>
+            <h1 class="card-title" {{ testTag('h1_index_page',  app.request.get('_controller')) | raw }}>
+                    Basket
+            </h1>
 
         </div>
         <div class="card-footer">
 
             <div class="float-left">
-                <a href="#">Admin</a> / <strong>Basket</strong>
+                <a href="{{ path('symka_core_admin_index') }}">
+                        Admin Panel
+                </a> / <strong>Basket</strong>
             </div>
 
         </div>
@@ -77,7 +81,7 @@
                 {{ knp_pagination_render(pagination, '@KnpPaginatorBundle/templates/Pagination/twitter_bootstrap_v4_pagination.html.twig') }}
             </div>
         {% else %}
-            <div class="alert alert-info">
+            <div class="alert alert-info" {{ testTag('DATA_IS_EMPTY',  app.request.get('_controller')) | raw }}>
                 Data not found
             </div>
         {% endif %}
